@@ -1,7 +1,7 @@
 # iMessage-Sticker-Util
 iMessage extension utility functions.
 
-See: https://www.exoviz.com/2018/01/15/66/
+See: http://www.exoviz.com/2018/01/15/creating-dynamic-stickers-for-imessage/
 
 ## Example Usage
 
