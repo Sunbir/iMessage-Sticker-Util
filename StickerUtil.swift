@@ -49,7 +49,11 @@ extension UIImage {
             return true
         }
         let alpha = cgImage.alphaInfo
-        return alpha == .first || alpha == .last || alpha == .alphaOnly || alpha == .premultipliedFirst || alpha == .premultipliedLast
+        return alpha == .first
+            || alpha == .last
+            || alpha == .alphaOnly
+            || alpha == .premultipliedFirst
+            || alpha == .premultipliedLast
     }
 
     public func resizeImageToFit(_ size: CGSize) -> UIImage? {
@@ -70,7 +74,9 @@ extension UIImage {
     public func createSticker(_ localizedDescription: String) throws -> MSSticker? {
         // Find optimal sticker size.
         var stickerDimensions = self.size
-        let candidateStickerDimensions = UIImage.OPTIMAL_STICKER_DIMENSIONS_PX.filter { $0 <= self.size.width && $0 <= self.size.height }
+        let candidateStickerDimensions = UIImage.OPTIMAL_STICKER_DIMENSIONS_PX.filter { 
+                $0 <= self.size.width && $0 <= self.size.height 
+            }
         if !candidateStickerDimensions.isEmpty {
             let stickerDimension = candidateStickerDimensions[0]
             stickerDimensions = CGSize(width: stickerDimension, height: stickerDimension)
@@ -112,10 +118,10 @@ extension UIImage {
         var currentImage = UIImage(cgImage: copyOfCgImage)
         while currentSize.width * currentSize.height > 0.0 {
             do {
-                try UIImagePNGRepresentation(currentImage)?.write(to: URL(fileURLWithPath: filePath), options: .atomic)
+                try UIImagePNGRepresentation(currentImage)?
+                    .write(to: URL(fileURLWithPath: filePath), options: .atomic)
                 let attrs = try FileManager.default.attributesOfItem(atPath: filePath)
                 if let fileSize = attrs[FileAttributeKey.size] as? NSNumber {
-                    print("lossless file size is \(fileSize)")
                     if fileSize.uint64Value > maxSize {
                         currentSize = CGSize(
                             width: currentSize.width - (currentSize.width * sizeIncrementFactor),
@@ -148,7 +154,8 @@ extension UIImage {
         var currentQuality: CGFloat = initialQuality
         while currentQuality > 0.0 {
             do {
-                try UIImageJPEGRepresentation(image, currentQuality)?.write(to: URL(fileURLWithPath: filePath), options: .atomic)
+                try UIImageJPEGRepresentation(image, currentQuality)?
+                    .write(to: URL(fileURLWithPath: filePath), options: .atomic)
                 let attrs = try FileManager.default.attributesOfItem(atPath: filePath)
                 if let fileSize = attrs[FileAttributeKey.size] as? NSNumber {
                     if fileSize.uint64Value > maxSize {
