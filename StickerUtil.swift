@@ -95,8 +95,8 @@ extension UIImage {
             return nil
         }
         let saveSuccss = haveAlphaChannel
-            ? sourceImage.saveImageAsPng(filePath, maxSize: maxStickerFileSizeBytes)
-            : sourceImage.saveImageAsJpeg(filePath, maxSize: maxStickerFileSizeBytes)
+            ? sourceImage.saveAsPng(filePath, maxSize: maxStickerFileSizeBytes)
+            : sourceImage.saveAsJpeg(filePath, maxSize: maxStickerFileSizeBytes)
         if !saveSuccss {
             // Failed to save sticker source image to file.
             return nil
@@ -107,7 +107,7 @@ extension UIImage {
             localizedDescription: localizedDescription)
     }
 
-    func saveImageAsPng(_ filePath: String, maxSize: Int32 = Int32.max) -> Bool {
+    func saveAsPng(_ filePath: String, maxSize: Int32 = Int32.max) -> Bool {
         guard let cgImage = self.cgImage, let copyOfCgImage = cgImage.copy() else {
             // Failed to get copy of underlying CGImage.
             return false
@@ -148,7 +148,7 @@ extension UIImage {
         return false
     }
 
-    func saveImageAsJpeg(_ filePath: String, maxSize: Int32 = Int32.max) -> Bool {
+    func saveAsJpeg(_ filePath: String, maxSize: Int32 = Int32.max) -> Bool {
         // We attempt to save the file to meet the maximum size constraint by adjusting compression quality.
         let initialQuality: CGFloat = 0.9
         let qualityIncrement: CGFloat = 0.05
